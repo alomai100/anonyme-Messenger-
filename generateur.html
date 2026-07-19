@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de lien anonyme</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.box {
+  background:white;
+  width:90%;
+  max-width:400px;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+}
+
+input {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+}
+
+button {
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  background:#1e3c72;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+h2 {
+  color:#1e3c72;
+}
+
+#resultat {
+  margin-top:20px;
+  padding:10px;
+  background:#f0f0f0;
+  border-radius:8px;
+  word-break:break-all;
+  display:none;
+}
+
+small {
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>🔗 Crée ton lien</h2>
+<p>Reçois toi aussi des messages anonymes</p>
+
+<input type="text" id="nom" placeholder="Ton nom (ex: Reina)">
+<input type="text" id="formCode" placeholder="Ton code Formspree (ex: xyz789)">
+<small>Trouve ton code sur formspree.io → ton formulaire → "Point de terminaison"</small>
+
+<button onclick="genererLien()">Générer mon lien</button>
+
+<div id="resultat">
+  <p id="lien"></p>
+  <button onclick="copierLien()">Copier le lien</button>
+</div>
+
+</div>
+
+<script>
+function genererLien() {
+  const nom = document.getElementById("nom").value.trim();
+  const formCode = document.getElementById("formCode").value.trim();
+
+  if (!nom || !formCode) {
+    alert("Merci de remplir les deux champs.");
+    return;
+  }
+
+  const base = window.location.href.replace("generateur.html", "index.html");
+  const lien = `${base}?nom=${encodeURIComponent(nom)}&form=${encodeURIComponent(formCode)}`;
+
+  document.getElementById("lien").textContent = lien;
+  document.getElementById("resultat").style.display = "block";
+}
+
+function copierLien() {
+  const lien = document.getElementById("lien").textContent;
+  navigator.clipboard.writeText(lien).then(() => {
+    alert("Lien copié !");
+  });
+}
+</script>
+
+</body>
+</html>
