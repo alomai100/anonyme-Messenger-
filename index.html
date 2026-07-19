@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Message anonyme - ALOMAI Gildas</title>
+<title>Message anonyme</title>
 
 <style>
 body {
@@ -46,22 +46,38 @@ button {
 h2 {
   color:#1e3c72;
 }
+
+.erreur {
+  color:red;
+}
 </style>
 </head>
 
 <body>
 
-<div class="box">
-<h2>📩 Message anonyme</h2>
-<p>Envoyez un message à <b>ALOMAI Gildas</b></p>
+<div class="box" id="contenu">
+<p>Chargement...</p>
+</div>
 
-<form action="https://formspree.io/f/mzdngpej" method="POST">
+<script>
+const params = new URLSearchParams(window.location.search);
+const nom = params.get("nom");
+const formCode = params.get("form");
+const contenu = document.getElementById("contenu");
 
-<textarea name="message" placeholder="Écris ton message ici..." required></textarea>
-
-<button type="submit">Envoyer anonymement</button>
-
-</form>
+if (!nom || !formCode) {
+  contenu.innerHTML = "<h2>⚠️ Lien invalide</h2><p>Ce lien de message anonyme est incomplet ou incorrect.</p>";
+} else {
+  contenu.innerHTML = `
+    <h2>📩 Message anonyme</h2>
+    <p>Envoyez un message à <b>${nom}</b></p>
+    <form action="https://formspree.io/f/${formCode}" method="POST">
+      <textarea name="message" placeholder="Écris ton message ici..." required></textarea>
+      <button type="submit">Envoyer anonymement</button>
+    </form>
+  `;
+}
+</script>
 
 </div>
 
